@@ -31,7 +31,46 @@ function walkhub_configuration_form($form) {
     ),
   );
 
+  $form['configuration'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Configuration'),
+  );
+
+  $form['configuration']['walkhub_origin'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Walkhub origin'),
+    '#default_value' => variable_get('walkhub_origin'),
+  );
+
+  $form['configuration']['walkhub_client_base_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Walkhub client base url'),
+    '#default_value' => variable_get('walkhub_client_base_url'),
+  );
+
+
   return system_settings_form($form);
+}
+
+/**
+ * Validate the fields for urls on the configuration form.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function walkhub_configuration_form_validate($form, &$form_state) {
+  $walkhub_origin = $form_state['values']['walkhub_origin'];
+  $walkhub_client_base_url = $form_state['values']['walkhub_client_base_url'];
+
+  if (strlen($walkhub_origin) > 0) {
+    if (!valid_url($walkhub_origin, TRUE)) {
+      form_set_error('walkhub_origin', t('The value %origin_value is not a valid value for origin.', array('%origin_value' => $walkhub_origin)));
+    }
+  }
+
+  if (!valid_url($walkhub_client_base_url, TRUE)) {
+    form_set_error('walkhub_client_base_url', t('The value %walkhub_client_base_url is not a valid value for client base url.', array('%walkhub_client_base_url' => $walkhub_client_base_url)));
+  }
 }
 
 /**
