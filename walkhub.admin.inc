@@ -53,7 +53,7 @@ function walkhub_configuration_form($form) {
 }
 
 /**
- * Validate the fields for urls on the configuration form.
+ * g
  *
  * @param $form
  * @param $form_state
